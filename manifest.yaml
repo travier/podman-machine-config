@@ -1,6 +1,7 @@
 variables:
   stream: stable
   prod: true
+  container_engines: false
 
 releasever: 39
 
