@@ -43,5 +43,9 @@ postprocess:
     set -xeuo pipefail
     setsebool -P -N container_use_cephfs on  # RHBZ#1692369
 
+    # Tweak os-release to be able to distinguish it from regular Fedora CoreOS
+    sed -i 's/VARIANT="CoreOS"/VARIANT="CoreOS (Podman Machine)"/' /usr/lib/os-release
+    sed -i 's/VARIANT_ID=coreos/VARIANT_ID=coreos-podman-machine/' /usr/lib/os-release
+
 # Include latest Fedora CoreOS stable manifest
 include: fedora-coreos-config/manifest.yaml
