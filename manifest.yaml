@@ -1,10 +1,47 @@
+# Do not include container engines by default
 variables:
   container_engines: false
 
+# Use the podman-next copr
 repos:
-  - podman-next
+  - copr:copr.fedorainfracloud.org:rhcontainerbot:podman-next
 
+# Ensure that those packages are installed from the podman-next COPR
+repo-packages:
+  - repo: copr:copr.fedorainfracloud.org:rhcontainerbot:podman-next
+    packages:
+      - aardvark-dns
+      - conmon
+      - container-selinux
+      - containers-common
+      - crun
+      - fuse-overlayfs
+      - gvisor-tap-vsock
+      - netavark
+      - podman
+      - runc
+      - skopeo
+      - slirp4netns
+
+# Other packages to include from Fedora repos
 packages:
-  - podman
+  - crun-wasm
+  - wasmedge-rt
+  - toolbox
 
+# Make sure that those packages are never included
+exclude-packages:
+  - moby-engine
+  - containerd
+  - containernetworking-plugins
+
+postprocess:
+  # Enable SELinux booleans used by OpenShift
+  # https://github.com/coreos/fedora-coreos-tracker/issues/284
+  - |
+    #!/usr/bin/env bash
+    set -xeuo pipefail
+    setsebool -P -N container_use_cephfs on  # RHBZ#1692369
+
+# Include latest Fedora CoreOS stable manifest
 include: fedora-coreos-config/manifest.yaml
