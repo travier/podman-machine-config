@@ -11,23 +11,23 @@ repo-packages:
   - repo: copr:copr.fedorainfracloud.org:rhcontainerbot:podman-next
     packages:
       - aardvark-dns
-      - conmon
       - container-selinux
       - containers-common
       - crun
-      - fuse-overlayfs
+      - crun-wasm
       - gvisor-tap-vsock
       - netavark
       - podman
-      - runc
       - skopeo
-      - slirp4netns
 
 # Other packages to include from Fedora repos
 packages:
-  - crun-wasm
-  - wasmedge-rt
+  - conmon
+  - fuse-overlayfs
+  - runc
+  - slirp4netns
   - toolbox
+  - wasmedge-rt
 
 # Make sure that those packages are never included
 exclude-packages:
